@@ -6,6 +6,6 @@ public class Main
  {
 	public static void main(String[] args) 
 	{
-		new FlxDesktopApplication(new FlixelGame(), 384, 512);
+		new FlxDesktopApplication(new FlixelGame(), "air hockey", 384, 512, false);
 	}
 }
