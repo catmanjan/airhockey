@@ -1,0 +1,33 @@
+
+pack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+board
+  rotate: false
+  xy: 1, 165
+  size: 384, 512
+  orig: 384, 512
+  offset: 0, 0
+  index: -1
+blueHandle
+  rotate: false
+  xy: 1, 67
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+redHandle
+  rotate: false
+  xy: 387, 581
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+puck
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

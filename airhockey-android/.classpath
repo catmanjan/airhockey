@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/airhockey"/>
+	<classpathentry kind="lib" exported="true" path="/airhockey/libs/flixel-core.jar" sourcepath="/airhockey/libs/flixel-core-sources.jar"/>
+	<classpathentry kind="lib" exported="true" path="libs/flixel-android.jar" sourcepath="libs/flixel-android-sources.jar"/>
+	<classpathentry kind="lib" exported="true" path="/airhockey/libs/tween-engine-api.jar" sourcepath="/airhockey/libs/tween-engine-api-sources.jar"/>
+	<classpathentry kind="lib" exported="true" path="/airhockey/libs/gdx.jar" sourcepath="/airhockey/libs/gdx-sources.jar"/>
+	<classpathentry kind="lib" exported="true" path="/airhockey/libs/gdx-freetype.jar" sourcepath="/airhockey/libs/gdx-freetype-sources.jar"/>
+	<classpathentry kind="lib" exported="true" path="libs/gdx-backend-android.jar" sourcepath="libs/gdx-backend-android-sources.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
