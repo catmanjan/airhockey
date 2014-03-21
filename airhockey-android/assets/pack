@@ -5,29 +5,29 @@ filter: Nearest,Nearest
 repeat: none
 board
   rotate: false
-  xy: 1, 165
-  size: 384, 512
-  orig: 384, 512
+  xy: 1, 323
+  size: 2048, 1536
+  orig: 2048, 1536
   offset: 0, 0
   index: -1
 blueHandle
   rotate: false
-  xy: 1, 67
-  size: 96, 96
-  orig: 96, 96
+  xy: 1, 1
+  size: 320, 320
+  orig: 320, 320
   offset: 0, 0
   index: -1
 redHandle
   rotate: false
-  xy: 387, 581
-  size: 96, 96
-  orig: 96, 96
+  xy: 2051, 1539
+  size: 320, 320
+  orig: 320, 320
   offset: 0, 0
   index: -1
 puck
   rotate: false
-  xy: 1, 1
-  size: 64, 64
-  orig: 64, 64
+  xy: 323, 65
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
