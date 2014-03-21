@@ -7,7 +7,7 @@ import org.flxbox2d.B2FlxState;
 import org.flxbox2d.collision.shapes.B2FlxBox;
 import org.flxbox2d.collision.shapes.B2FlxCircle;
 import org.flxbox2d.collision.shapes.B2FlxPolygon;
-import org.flxbox2d.dynamics.joints.B2FlxMouseJoint;
+import org.flxbox2d.dynamics.joints.B2FlxMultiTouchJoint;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
@@ -49,8 +49,8 @@ public class PlayState extends B2FlxState {
 	public void create() {
 		super.create();
 		B2FlxB.setGravity(0, 0);
-		// FlxG.visualDebug = true;
-		// B2FlxDebug.drawBodies = true;
+		//FlxG.visualDebug = true;
+		//B2FlxDebug.drawBodies = true;
 
 		float puckX = (FlxG.width - puckSize) / 2;
 		float puckY = (FlxG.height - puckSize) / 2;
@@ -68,16 +68,25 @@ public class PlayState extends B2FlxState {
 
 		puck = circle(puckX, puckY, puckSize / 2, PUCK, PUCK_MASK);
 		puck.loadGraphic("pack:puck");
+		puck.create();
+		add(puck);
 
 		blueHandle = circle(blueX, handleY, handleSize / 2, HANDLE, HANDLE_MASK);
 		blueHandle.loadGraphic("pack:blueHandle");
+		blueHandle.setLinearDamping(2);
+		blueHandle.create();
+		add(blueHandle);
+
 		redHandle = circle(0, handleY, handleSize / 2, HANDLE, HANDLE_MASK);
 		redHandle.loadGraphic("pack:redHandle");
+		redHandle.setLinearDamping(2);
+		redHandle.create();
+		add(redHandle);
 
 		blueGoal = box(-1, 0, 1, FlxG.height, GOAL, GOAL_MASK);
 		redGoal = box(FlxG.width, 0, 1, FlxG.height, GOAL, GOAL_MASK);
 
-		add(new B2FlxMouseJoint());
+		add(new B2FlxMultiTouchJoint(this));
 	}
 
 	private B2FlxCircle circle(float x, float y, float radius,
@@ -90,8 +99,6 @@ public class PlayState extends B2FlxState {
 		circle.setRestitution(0.8f);
 		circle.setFixedRotation(true);
 		circle.setDraggable(true);
-		circle.create();
-		add(circle);
 
 		return circle;
 	}
