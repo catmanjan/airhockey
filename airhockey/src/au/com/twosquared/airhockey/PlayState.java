@@ -8,6 +8,7 @@ import org.flxbox2d.collision.shapes.B2FlxBox;
 import org.flxbox2d.collision.shapes.B2FlxCircle;
 import org.flxbox2d.collision.shapes.B2FlxPolygon;
 import org.flxbox2d.collision.shapes.B2FlxShape;
+import org.flxbox2d.dynamics.joints.B2FlxMouseJoint;
 import org.flxbox2d.dynamics.joints.B2FlxMultiTouchJoint;
 import org.flxbox2d.events.IB2FlxListener;
 
@@ -68,6 +69,7 @@ public class PlayState extends B2FlxState {
 	public void create() {
 		super.create();
 		B2FlxB.setGravity(0, 0);
+		B2FlxMouseJoint.maxForce = 10000000f;
 		// FlxG.visualDebug = true;
 		// B2FlxDebug.drawBodies = true;
 
