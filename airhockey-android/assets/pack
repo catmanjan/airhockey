@@ -3,6 +3,13 @@ pack.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+board2
+  rotate: false
+  xy: 1, 1861
+  size: 2432, 1536
+  orig: 2432, 1536
+  offset: 0, 0
+  index: -1
 board
   rotate: false
   xy: 1, 323
@@ -12,21 +19,21 @@ board
   index: -1
 blueHandle
   rotate: false
-  xy: 1, 1
+  xy: 2435, 3077
   size: 320, 320
   orig: 320, 320
   offset: 0, 0
   index: -1
 redHandle
   rotate: false
-  xy: 2051, 1539
+  xy: 1, 1
   size: 320, 320
   orig: 320, 320
   offset: 0, 0
   index: -1
 puck
   rotate: false
-  xy: 323, 65
+  xy: 2051, 1603
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
