@@ -2,12 +2,14 @@ package au.com.twosquared.airhockey;
 
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
+import org.flixel.FlxU;
 import org.flxbox2d.B2FlxB;
 import org.flxbox2d.B2FlxState;
 import org.flxbox2d.collision.shapes.B2FlxBox;
 import org.flxbox2d.collision.shapes.B2FlxCircle;
 import org.flxbox2d.collision.shapes.B2FlxPolygon;
 import org.flxbox2d.collision.shapes.B2FlxShape;
+import org.flxbox2d.dynamics.joints.B2FlxDistanceJoint;
 import org.flxbox2d.dynamics.joints.B2FlxMouseJoint;
 import org.flxbox2d.dynamics.joints.B2FlxMultiTouchJoint;
 import org.flxbox2d.events.IB2FlxListener;
@@ -18,14 +20,17 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class PlayState extends B2FlxState {
-	B2FlxPolygon board;
-	B2FlxCircle puck;
-	B2FlxCircle redHandle;
-	B2FlxCircle blueHandle;
+
 	B2FlxBox redGoalBorder;
 	B2FlxBox blueGoalBorder;
 	B2FlxBox redGoal;
 	B2FlxBox blueGoal;
+	B2FlxCircle puck;
+	B2FlxCircle redHandle;
+	B2FlxCircle blueHandle;
+	B2FlxCircle ai;
+	B2FlxDistanceJoint aiJoint;
+	B2FlxPolygon board;
 
 	private final float puckSize = 220;
 	private final float handleSize = 280;
@@ -55,7 +60,6 @@ public class PlayState extends B2FlxState {
 					{ boardWidth - 134, 110 } },
 			{ { boardWidth, 0 }, { boardWidth, 503 }, { boardWidth - 54, 503 },
 					{ boardWidth - 54, 190 } },
-			//
 			{ { 0, 1536 }, { 0, 1033 }, { 54, 1033 }, { 54, 1346 } },
 			{ { 0, 1536 }, { 54, 1346 }, { 134, 1426 } },
 			{ { 0, 1536 }, { 134, 1426 }, { boardWidth - 134, 1426 },
@@ -104,6 +108,21 @@ public class PlayState extends B2FlxState {
 		redHandle.create();
 		add(redHandle);
 
+		ai = new B2FlxCircle(0, handleY, handleSize / 2);
+		ai.setMaskBits((short) 0);
+		ai.setType(BodyType.StaticBody);
+		ai.create();
+		ai.visible = false;
+		add(ai);
+
+		aiJoint = new B2FlxDistanceJoint(redHandle, ai);
+		aiJoint.setCollideConnected(false);
+		aiJoint.setDampingRatio(0.8f);
+		aiJoint.setFrequencyHz(0.9f);
+		aiJoint.create();
+		aiJoint.visible = false;
+		add(aiJoint);
+
 		blueGoalBorder = box(-1, 0, 1, FlxG.height, BORDER, BORDER_MASK);
 		redGoalBorder = box(FlxG.width, 0, 1, FlxG.height, BORDER, BORDER_MASK);
 
@@ -115,6 +134,49 @@ public class PlayState extends B2FlxState {
 		B2FlxB.contact.onBeginContact(PUCK, RED_GOAL, hitRedGoal);
 
 		add(new B2FlxMultiTouchJoint(this));
+	}
+
+	@Override
+	public void update() {
+		super.update();
+
+		updateAI();
+	}
+
+	private void updateAI() {
+		AIState state = AIState.IDLE;
+		float x = redHandle.position.x;
+		float y = redHandle.position.y;
+		float stageWidth = 76;
+		float aggro = 2 / 5f;
+
+		if (puck.position.x < stageWidth * aggro) {
+			state = AIState.ATTACKING;
+		} else if (puck.position.x > stageWidth * aggro) {
+			state = AIState.DEFENDING;
+		}
+
+		switch (state) {
+		case IDLE:
+			break;
+		case ATTACKING:
+			x = puck.position.x;
+			y = puck.position.y;
+
+			ai.setPosition(x, y);
+			break;
+		case DEFENDING:
+			FlxPoint a = new FlxPoint(puck.position.x, puck.position.y);
+			FlxPoint b = new FlxPoint(redGoal.position.x, redGoal.position.y);
+
+			double angle = Math.toRadians(FlxU.getAngle(b, a));
+
+			x = b.x + (float) (Math.sin(angle) * 20);
+			y = b.y - (float) (Math.cos(angle) * 25);
+
+			ai.setPosition(x, y);
+			break;
+		}
 	}
 
 	private B2FlxCircle circle(float x, float y, float radius,
