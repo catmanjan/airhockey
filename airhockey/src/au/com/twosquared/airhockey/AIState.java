@@ -1,5 +1,5 @@
 package au.com.twosquared.airhockey;
 
 public enum AIState {
-	IDLE, ATTACKING, DEFENDING
+	IDLE, ATTACKING, DEFENDING, CORNER
 }

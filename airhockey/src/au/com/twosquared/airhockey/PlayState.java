@@ -32,6 +32,11 @@ public class PlayState extends B2FlxState {
 	B2FlxDistanceJoint aiJoint;
 	B2FlxPolygon board;
 
+	// For AI, 0 is least aggressive, 1 is most aggressive
+	private float aggroModifier;
+	// For AI, 0 is closest to own goal, 1 is closest to enemy goal
+	private float rangeModifier;
+
 	private final float puckSize = 220;
 	private final float handleSize = 280;
 
@@ -117,8 +122,8 @@ public class PlayState extends B2FlxState {
 
 		aiJoint = new B2FlxDistanceJoint(redHandle, ai);
 		aiJoint.setCollideConnected(false);
-		aiJoint.setDampingRatio(0.8f);
-		aiJoint.setFrequencyHz(0.9f);
+		aiJoint.setDampingRatio(0.9f);
+		aiJoint.setFrequencyHz(1f);
 		aiJoint.create();
 		aiJoint.visible = false;
 		add(aiJoint);
@@ -148,11 +153,16 @@ public class PlayState extends B2FlxState {
 		float x = redHandle.position.x;
 		float y = redHandle.position.y;
 		float stageWidth = 76;
-		float aggro = 2 / 5f;
+		float aggro = stageWidth * (0.4f + aggroModifier * 0.1f);
+		float range = stageWidth * (0.25f + rangeModifier * 0.25f);
 
-		if (puck.position.x < stageWidth * aggro) {
+		if (puck.position.x <= aggro) {
 			state = AIState.ATTACKING;
-		} else if (puck.position.x > stageWidth * aggro) {
+
+			if (puck.position.y >= 40 || puck.position.y <= 8) {
+				state = AIState.CORNER;
+			}
+		} else if (puck.position.x > aggro) {
 			state = AIState.DEFENDING;
 		}
 
@@ -160,7 +170,13 @@ public class PlayState extends B2FlxState {
 		case IDLE:
 			break;
 		case ATTACKING:
-			x = puck.position.x;
+			x = puck.position.x - 3;
+			y = puck.position.y;
+
+			ai.setPosition(x, y);
+			break;
+		case CORNER:
+			x = puck.position.x - 3;
 			y = puck.position.y;
 
 			ai.setPosition(x, y);
@@ -171,8 +187,8 @@ public class PlayState extends B2FlxState {
 
 			double angle = Math.toRadians(FlxU.getAngle(b, a));
 
-			x = b.x + (float) (Math.sin(angle) * 20);
-			y = b.y - (float) (Math.cos(angle) * 25);
+			x = b.x + (float) (Math.sin(angle) * range);
+			y = b.y - (float) (Math.cos(angle) * 16);
 
 			ai.setPosition(x, y);
 			break;
@@ -215,6 +231,11 @@ public class PlayState extends B2FlxState {
 		puck.reset(puckX, puckY);
 		blueHandle.reset(blueX, handleY);
 		redHandle.reset(0, handleY);
+
+		aggroModifier = (float) Math.random();
+		rangeModifier = (float) Math.random();
+
+		System.out.println(aggroModifier + ", " + rangeModifier);
 	}
 
 	IB2FlxListener hitBlueGoal = new IB2FlxListener() {
